@@ -1,3 +1,4 @@
+import pandas as pd
 import pygame
 import sys
 
@@ -13,17 +14,25 @@ window_size = (500, 800)
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption('MedTrack')
 
+df = pd.read_csv("Drug.csv",
+                 header=0,
+                 usecols=["Drug", "Information", "Effective"])
+drags = df.Drug.unique()
+drags = list(drags)
+print(drags)
+
 board = [[0 for i in range(50)] for j in range(25)]
 
 for i in board:
     print(i)
-page1 = True
+page = 0
 font = pygame.font.Font(None, 24)
 button_surface = pygame.Surface((150, 50))
 text = font.render("Next", True, (0, 0, 0))
 text_rect = text.get_rect(center=(button_surface.get_width() / 2, button_surface.get_height() / 2))
 
 button_rect = pygame.Rect(345, 745, 150, 50)
+
 
 def hover_button(button):
     if button_rect.collidepoint(pygame.mouse.get_pos()):
@@ -51,8 +60,8 @@ while True:
 
             if button_rect.collidepoint(event.pos):
                 screen.fill('white')
-                page1 = False
-    if page1:
+                page += 1
+    if page == 0:
         font = pygame.font.SysFont("Arial", 56, 3)
         txt_welcome = font.render("Welcome to", True, 'black')
         screen.blit(txt_welcome, (130, 100))
@@ -62,6 +71,8 @@ while True:
         font2 = pygame.font.SysFont("Arial", 40)
         txt_welcome2 = font2.render("This app will make your life easier!", True, 'black')
         screen.blit(txt_welcome2, (5, 240))
+    if page == 1:
+        pass
 
     hover_button(button_rect)
 
