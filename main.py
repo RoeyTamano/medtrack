@@ -116,15 +116,17 @@ while True:
         screen.blit(txt_welcome2, (5, 240))
     if page == 1:
         screen.fill((255, 255, 255))
-        pygame.draw.rect(screen, color, input_rect)
+        pygame.draw.rect(screen, 'red', input_rect)
         text_surface = base_font.render(user_text, True, (255, 255, 255))
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
         input_rect.w = max(100, text_surface.get_width() + 10)
+        font = pygame.font.SysFont(None, 24)
+        img = font.render('search your medicine: ', True, 'red')
+        screen.blit(img, (170, 130))
 
     hover_button(button_rect)
 
     button_surface.blit(text, text_rect)
-
 
     screen.blit(button_surface, (button_rect.x, button_rect.y))
 
