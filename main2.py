@@ -134,7 +134,7 @@ def send():
     def send_email(to_email, subject, body):
         yag.send(to=to_email, subject=subject, contents=body)
 
-    send_email(email_entry, 'medication reminder test', 'dont forget your medication!')
+    send_email("roitamano@gmail.com", 'medication reminder test', 'dont forget your medication!')
 
 
 def set_reminder(drug_name):
@@ -153,6 +153,7 @@ def set_reminder(drug_name):
     schedule_reminder(drug_name, time_str, date_str)
     messagebox.showinfo("Reminder Set",
                         f"Reminder set for {drug_name} at {time_str} on {date_str if date_str else 'daily'}.")
+    send()
 
 
 def schedule_reminder(drug_name, time_str, date_str):
@@ -229,7 +230,7 @@ def show_page():
         email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
         email_entry.pack(padx=(0, 400), pady=(10, 10))
 
-        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=send)
+        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24))
         enter1_button.pack(padx=(0, 400), pady=(10, 20))
 
         next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
