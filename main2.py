@@ -129,7 +129,7 @@ def display_info(drug_info):
 
 
 def send():
-    yag = yagmail.SMTP('roitamano@gmail.com', 'jyhq bjds omap imgb')
+    yag = yagmail.SMTP('roitamano@gmail.com', '**********')
 
     def send_email(to_email, subject, body):
         yag.send(to=to_email, subject=subject, contents=body)
