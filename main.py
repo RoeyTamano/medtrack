@@ -16,16 +16,10 @@ pygame.display.set_caption('MedTrack')
 
 base_font = pygame.font.Font(None, 32)
 user_text = ''
-
-# create rectangle
+drag_choice = ''
 input_rect = pygame.Rect(200, 200, 140, 32)
 
-# color_active stores color(lightskyblue3) which
-# gets active when input box is clicked by user
 color_active = pygame.Color('lightskyblue3')
-
-# color_passive store color(chartreuse4) which is
-# color of input box.
 color_passive = pygame.Color('chartreuse4')
 color = color_passive
 active = False
@@ -92,13 +86,7 @@ while True:
                                  usecols=["Drug", "Information", "Effective"])
                 drags = list(df.Drug.unique())
                 print(str(drag_choice) in drags)
-                if drag_choice in drags:
-                    print("hh")
-                    drag_ind = drags.index(drag_choice)
-                    print(df.loc[drag_ind + 1])
-                    print()
-                    user_text = ''
-                    print(drag_choice)
+            user_text = ''
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 
             if button_rect.collidepoint(event.pos):
@@ -120,6 +108,19 @@ while True:
         text_surface = base_font.render(user_text, True, (255, 255, 255))
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
         input_rect.w = max(100, text_surface.get_width() + 10)
+        if drag_choice in drags:
+            drag_ind = drags.index(drag_choice)
+            print(df.loc[drag_ind + 1])
+            font = pygame.font.SysFont("Arial", 56, 3)
+            txt_welcome = font.render(f"{df.loc[drag_ind + 1]["Drug"]}", True, 'black')
+            print(print(df.loc[drag_ind + 1].replace(" ", "")))
+            screen.blit(txt_welcome, (130, 400))
+            txt_welcome = font.render(f"{df.loc[drag_ind + 1]["Information"]}", True, 'black')
+            print(print(df.loc[drag_ind + 1].replace(" ", "")))
+            screen.blit(txt_welcome, (130, 500))
+            txt_welcome = font.render(f"{df.loc[drag_ind + 1]["Effective"]}", True, 'black')
+            print(print(df.loc[drag_ind + 1].replace(" ", "")))
+            screen.blit(txt_welcome, (130, 600))
 
     hover_button(button_rect)
 
