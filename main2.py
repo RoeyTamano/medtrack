@@ -257,28 +257,6 @@ def show_page():
         progressbar = ctk.CTkProgressBar(root, orientation="horizontal")
         progressbar.pack()
 
-    # elif page == 4:
-    #     schedule = ctk.CTkLabel(root, text="Choose your schedule", font=ctk.CTkFont(size=56, weight="bold"))
-    #     schedule.pack(pady=(50, 10))
-    #
-    #     schedule1 = ctk.CTkLabel(root,
-    #                              text="Enter the name of the medicine you need to take in at least one of the following options",
-    #                              font=ctk.CTkFont(size=32, weight="bold"), wraplength=500)
-    #     schedule1.pack(pady=(50, 10))
-    #
-    #     morning = ctk.CTkLabel(root, text="Enter the medicine you want to take",
-    #                            font=ctk.CTkFont(size=22))
-    #     morning.pack(pady=(50, 10))
-    #
-    #     segemented_button = ctk.CTkSegmentedButton(root, values=drug_list)
-    #     segemented_button.pack()
-    #
-    #     combobox = ctk.CTkComboBox(root, values=["Morning", "Afternoon", "Night"])
-    #     combobox.pack()
-    #
-    #     enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
-    #     enter1_button.pack(padx=(0, 0), pady=(10, 20))
-
 
 schedule_thread = threading.Thread(target=run_schedule, daemon=True)
 schedule_thread.start()
