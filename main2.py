@@ -24,7 +24,6 @@ drug_entry = None
 info_frame = None
 
 
-
 def next_page():
     global page
     page += 1
