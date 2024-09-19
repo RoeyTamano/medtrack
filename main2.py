@@ -97,7 +97,7 @@ def show_page():
         next_button.pack(pady=5)
 
     elif page == 2:
-        lon_in = ctk.CTkLabel(root, text="LON IN ", font=ctk.CTkFont(size=56, weight="bold"))
+        lon_in = ctk.CTkLabel(root, text="LOG IN ", font=ctk.CTkFont(size=56, weight="bold"))
         lon_in.pack(pady=(50, 10))
         lon_in1 = ctk.CTkLabel(root, text="Please fill in the following details in order to register!",
                                font=ctk.CTkFont(size=20, weight="bold"))
