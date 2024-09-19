@@ -25,7 +25,6 @@ drug_entry = None
 info_frame = None
 name_entry = None
 
-
 def next_page():
     global page
     page += 1
@@ -59,6 +58,10 @@ def display_info(drug_info):
     drug_label = tk.Label(info_frame, text=f"Drug: {drug_info['Drug']}",
                           font=font.Font(family="welcome_font", size=16, weight="bold"))
     drug_label.grid(row=0, column=0, pady=(10, 5), sticky="nsew")  # Centering the label
+
+    info_label = tk.Label(info_frame, text=f"Information: {drug_info['Information'].split('.')[0]}",
+                          font=font.Font(family="welcome_font", size=17), wraplength=500, justify="center")
+    info_label.grid(row=1, column=0, pady=(5, 10), padx=100, sticky="nsew")
 
 
 def show_page():
@@ -117,9 +120,8 @@ def show_page():
         enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
         enter1_button.pack(padx=(0, 400), pady=(10, 20))
 
-
-
-
+        next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
+        next_button.pack(pady=5)
 
     elif page == 3:
         title_label = ctk.CTkLabel(root, text="Search for a Drug", font=ctk.CTkFont(size=36))
@@ -137,17 +139,8 @@ def show_page():
         next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
         next_button.pack(pady=250)
 
-    if page == 3:
-        lon_label = ctk.CTkLabel(root, text="LON IN", font=ctk.CTkFont(size=56, weight="bold"))
-        lon_label.pack(pady=(50, 10))
 
-        lon_label1 = ctk.CTkLabel(root, text="Please fill in the following details in order to register 'MedTrack'",
-                                  font=ctk.CTkFont(size=22, weight="bold"))
-        lon_label1.pack(pady=(50, 5))
 
-        lon_label2 = ctk.CTkLabel(root, text="Please enter your full name:",
-                                  font=ctk.CTkFont(size=20, ))
-        lon_label2.pack(padx=(0, 300), pady=(20, 30))
 
 
 show_page()
