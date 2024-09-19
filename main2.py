@@ -97,7 +97,7 @@ def show_page():
         next_button.pack(pady=5)
 
     elif page == 2:
-        lon_in = ctk.CTkLabel(root, text="LON IN ", font=ctk.CTkFont(size=56, weight="bold"))
+        lon_in = ctk.CTkLabel(root, text="LOG IN ", font=ctk.CTkFont(size=56, weight="bold"))
         lon_in.pack(pady=(50, 10))
         lon_in1 = ctk.CTkLabel(root, text="Please fill in the following details in order to register!",
                                font=ctk.CTkFont(size=20, weight="bold"))
@@ -112,10 +112,10 @@ def show_page():
         enter1_button.pack(padx=(0, 400), pady=(10, 20))
 
         lon_in2 = ctk.CTkLabel(root, text="Please enter your email:", font=ctk.CTkFont(size=20, weight="bold"))
-        lon_in2.pack(padx=(0,300), pady=(10, 60))
+        lon_in2.pack(padx=(0,300), pady=(10, 40))
 
         email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
-        email_entry.pack(padx=(0, 400), pady=(10, 10))
+        email_entry.pack(padx=(0, 400), pady=(1, 0))
 
         enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
         enter1_button.pack(padx=(0, 400), pady=(10, 20))
@@ -138,6 +138,24 @@ def show_page():
 
         next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
         next_button.pack(pady=250)
+
+    elif page == 4:
+        schedule= ctk.CTkLabel(root, text="Choose your schedule", font=ctk.CTkFont(size=56, weight="bold"))
+        schedule.pack(pady=(50, 10))
+
+        schedule1= ctk.CTkLabel(root, text="Enter the name of the medicine you need to take in at least one of the following options", font=ctk.CTkFont(size=32, weight="bold"))
+        schedule1.pack(pady=(50, 10))
+
+        morning= ctk.CTkLabel(root, text="Enter the medicine you want to take in the morning:", font=ctk.CTkFont(size=22))
+        morning.pack(pady=(50, 10))
+
+        email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
+        email_entry.pack(padx=(0, 100), pady=(10, 10))
+
+        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
+        enter1_button.pack(padx=(0, 100), pady=(10, 20))
+
+
 
 
 
