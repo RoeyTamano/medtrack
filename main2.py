@@ -4,7 +4,6 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import messagebox
 
-
 # Load the data
 df = pd.read_csv("Drug.csv", header=0, usecols=["Drug", "Information", "Effective"])
 drugs = df.Drug.unique()
@@ -24,7 +23,6 @@ drug_entry = None
 info_frame = None
 
 
-
 def next_page():
     global page
     page += 1
@@ -41,7 +39,6 @@ def search_drug():
 
 
 def display_info(drug_info):
-
     # Clear the info frame
     for widget in info_frame.winfo_children():
         widget.destroy()
@@ -54,7 +51,9 @@ def display_info(drug_info):
                           font=font.Font(family="welcome_font", size=16, weight="bold"))
     drug_label.grid(row=0, column=0, pady=(10, 5), sticky="nsew")  # Centering the label
 
-
+    info_label = tk.Label(info_frame, text=f"Information: {drug_info['Information'].split('.')[0]}",
+                          font=font.Font(family="welcome_font", size=17), wraplength=500, justify="center")
+    info_label.grid(row=1, column=0, pady=(5, 10), padx=100, sticky="nsew")
 
 
 def show_page():
@@ -98,14 +97,12 @@ def show_page():
         search_button = ctk.CTkButton(root, text="Search", font=ctk.CTkFont(size=24), command=search_drug)
         search_button.pack(pady=(10, 30))
 
+        # Frame to display drug information
         info_frame = ctk.CTkFrame(root)
         info_frame.pack(pady=(0, 0))
 
         next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
         next_button.pack(pady=250)
-
-
-
 
 
 show_page()
