@@ -21,11 +21,15 @@ root.geometry("700x900")
 
 page = 1
 
+remind = {}
+
 # Define global variables for the Entry and Label widgets
 drug_entry = None
 info_frame = None
 name_entry = None
-
+morning_list = []
+afternoon_list = []
+night_list = []
 
 def next_page():
     global page
@@ -62,6 +66,8 @@ def display_info(drug_info):
     info_label.grid(row=1, column=0, pady=(5, 10), padx=100, sticky="nsew")
 
 
+def segmented_button_callback(value):
+    print("segmented button clicked:", value)
 def combobox_callback(choice):
     print("combobox dropdown clicked:", choice)
 
@@ -159,7 +165,12 @@ def show_page():
                                font=ctk.CTkFont(size=22))
         morning.pack(pady=(50, 10))
 
-        combobox = ctk.CTkComboBox(root, values=drug_list,
+        segemented_button = ctk.CTkSegmentedButton(root, values=drug_list,
+                                                             command=segmented_button_callback)
+        segemented_button.set("Value 1")
+        segemented_button.pack()
+
+        combobox = ctk.CTkComboBox(root, values=["Morning", "Afternoon", "Night"],
                                    command=combobox_callback)
         combobox.pack()
         email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
