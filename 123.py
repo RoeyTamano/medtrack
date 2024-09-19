@@ -1,91 +1,189 @@
+from tkinter import font
 import pandas as pd
+import customtkinter as ctk
+import tkinter as tk
+from tkinter import messagebox
+import yagmail
 
-#
-df = pd.read_csv("Drug.csv",
-                 header=0,
-                 usecols=["Drug", "Information", "Effective"])
-drags = df.Drug.unique()
-drags = list(drags)
-print(drags)
-drag_choice = ''
-drag_ind = drags.index("Azithromycin")
-print(df.loc[drag_ind + 1])
-print()
 
-# import sys module
-import pygame
-import sys
+name = None
+name_list1 = []
+drug_list = []
+# Load the data
+df = pd.read_csv("Drug.csv", header=0, usecols=["Drug", "Information", "Effective"])
+drugs = df.Drug.unique()
+drugs = list(drugs)
 
-# pygame.init() will initialize all
-# imported module
-pygame.init()
+# Initialize CustomTkinter window
+ctk.set_appearance_mode("system")  # "dark", "light", or "system"
+ctk.set_default_color_theme("blue")  # Color theme
+root = ctk.CTk()
+root.title("MedTrack")
+root.geometry("700x900")
 
-clock = pygame.time.Clock()
+page = 1
 
-# it will display on screen
-screen = pygame.display.set_mode([600, 500])
+remind = {}
 
-# basic font for user typed
-base_font = pygame.font.Font(None, 32)
-user_text = ''
+# Define global variables for the Entry and Label widgets
+drug_entry = None
+info_frame = None
+name_entry = None
+morning_list = []
+afternoon_list = []
+night_list = []
 
-# create rectangle
-input_rect = pygame.Rect(200, 200, 140, 32)
+def next_page():
+    global page
+    page += 1
+    show_page()
 
-# color_active stores color(lightskyblue3) which
-# gets active when input box is clicked by user
-color_active = pygame.Color('lightskyblue3')
+def reminder(choice, value):
+    if choice == "Morning":
+        morning_list.append(value)
+    if choice == "Afternoon":
+        morning_list.append(value)
+    if choice == "Night":
+        morning_list.append(value)
 
-# color_passive store color(chartreuse4) which is
-# color of input box.
-color_passive = pygame.Color('chartreuse4')
-color = color_passive
-lst = []
-active = False
+def search_drug():
+    drug_name = drug_entry.get().strip()
+    if drug_name in drugs:
+        drug_info = df[df['Drug'] == drug_name].iloc[0]
+        display_info(drug_info)
+    else:
+        messagebox.showinfo("Not Found", "The drug you entered is not in the database.")
 
-while True:
-    for event in pygame.event.get():
+def add_page():
+    drug = drug_entry.get().strip()
+    drug_list.append(drug)
 
-        # if user types QUIT then the screen will close
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+def name_list():
+    name = name_entry.get().strip()
+    name_list1.append(name)
+    print(name_list1)
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if input_rect.collidepoint(event.pos):
-                active = True
-                color = color_active
-            else:
-                active = False
-                color = color_passive
+def display_info(drug_info):
+    for widget in info_frame.winfo_children():
+        widget.destroy()
+    info_frame.grid_columnconfigure(0, weight=1)
+    drug_label = tk.Label(info_frame, text=f"Drug: {drug_info['Drug']}",
+                          font=font.Font(family="welcome_font", size=16, weight="bold"))
+    drug_label.grid(row=0, column=0, pady=(10, 5), sticky="nsew")  # Centering the label
+    info_label = tk.Label(info_frame, text=f"Information: {drug_info['Information'].split('.')[0]}",
+                          font=font.Font(family="welcome_font", size=17), wraplength=500, justify="center")
+    info_label.grid(row=1, column=0, pady=(5, 10), padx=100, sticky="nsew")
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_BACKSPACE:
-                user_text = user_text[:-1]
-            else:
-                user_text += event.unicode
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                drag_choice = user_text.strip()
-                df = pd.read_csv("Drug.csv",
-                                 header=0,
-                                 usecols=["Drug", "Information", "Effective"])
-                drags = list(df.Drug.unique())
-                print(str(drag_choice) in drags)
-                if drag_choice in drags:
-                    print("hh")
-                    drag_ind = drags.index(drag_choice)
-                    print(df.loc[drag_ind + 1])
-                    print()
-                    user_text = ''
-                    print(drag_choice)
 
-        screen.fill((255, 255, 255))
-        pygame.draw.rect(screen, color, input_rect)
-        text_surface = base_font.render(user_text, True, (255, 255, 255))
-        screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
-        input_rect.w = max(100, text_surface.get_width() + 10)
+yag = yagmail.SMTP('roitamano@gmail.com', 'jyhq bjds omap imgb')
+def send_email(to_email, subject, body):
+    yag.send(to=to_email, subject=subject, contents=body)
 
-    pygame.display.flip()
+send_email('shakedmaliah@gmail.com', 'medication reminder test', 'dont forget your medication!')
 
-    clock.tick(60)
+def show_page():
+    global page
+    global drug_entry
+    global info_frame
+    global name_entry
+
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    if page == 1:
+        welcome_label = ctk.CTkLabel(root, text="Welcome to", font=ctk.CTkFont(size=56, weight="bold"))
+        welcome_label.pack(pady=(50, 10))
+
+        medtrack_label = ctk.CTkLabel(root, text="MedTrack", font=ctk.CTkFont(size=52, weight="bold"),
+                                      text_color="dark red")
+        medtrack_label.pack(pady=(10, 10))
+
+        description_label = ctk.CTkLabel(root, text="This app will make your life easier!",
+                                         font=ctk.CTkFont(size=20, weight="bold"))
+        description_label.pack(pady=(10, 20))
+
+        info_label = ctk.CTkLabel(root, text=(
+            "In our app, you can search information about medicines.\n\n"
+            "A user who decides to take a medicine\n\n can enter it into the system.\n\n"
+            "The app will remind you to take the medicine\n\n by sending a daily message\n\n"
+            "about which medicine to take and when."
+        ), font=ctk.CTkFont(size=20), justify="center")
+        info_label.pack(pady=(20, 30))
+
+        next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
+        next_button.pack(pady=5)
+
+    elif page == 2:
+        lon_in = ctk.CTkLabel(root, text="LOG IN ", font=ctk.CTkFont(size=56, weight="bold"))
+        lon_in.pack(pady=(50, 10))
+        lon_in1 = ctk.CTkLabel(root, text="Please fill in the following details in order to register!",
+                               font=ctk.CTkFont(size=20, weight="bold"))
+        lon_in1.pack(pady=(10, 20))
+        lon_in1 = ctk.CTkLabel(root, text="Please enter your full name:", font=ctk.CTkFont(size=20, weight="bold"))
+        lon_in1.pack(padx=(0, 250), pady=(10, 40))
+
+        name_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
+        name_entry.pack(padx=(0, 400), pady=(10, 10))
+
+        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=name_list)
+        enter1_button.pack(padx=(0, 400), pady=(10, 20))
+
+        lon_in2 = ctk.CTkLabel(root, text="Please enter your email:", font=ctk.CTkFont(size=20, weight="bold"))
+        lon_in2.pack(padx=(0, 300), pady=(10, 60))
+
+        email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
+        email_entry.pack(padx=(0, 400), pady=(10, 10))
+
+        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
+        enter1_button.pack(padx=(0, 400), pady=(10, 20))
+
+        next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
+        next_button.pack(pady=5)
+
+    elif page == 3:
+        title_label = ctk.CTkLabel(root, text="Search for a Drug", font=ctk.CTkFont(size=36))
+        title_label.pack(pady=(50, 20))
+
+        drug_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
+        drug_entry.pack(pady=(10, 20))
+
+        search_button = ctk.CTkButton(root, text="Search", font=ctk.CTkFont(size=24), command=search_drug)
+        search_button.pack(pady=(10, 30))
+
+        info_frame = ctk.CTkFrame(root)
+        info_frame.pack(pady=(0, 0))
+
+        add_button = ctk.CTkButton(root, text="add", font=ctk.CTkFont(size=24), command=add_page)
+        add_button.pack(pady=(10, 20))
+
+        next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
+        next_button.pack(pady=(10, 20))
+        progressbar = ctk.CTkProgressBar(root, orientation="horizontal")
+        progressbar.pack()
+
+    elif page == 4:
+        schedule = ctk.CTkLabel(root, text="Choose your schedule", font=ctk.CTkFont(size=56, weight="bold"))
+        schedule.pack(pady=(50, 10))
+
+        schedule1 = ctk.CTkLabel(root,
+                                 text="Enter the name of the medicine you need to take in at least one of the following options",
+                                 font=ctk.CTkFont(size=32, weight="bold"), wraplength=500)
+        schedule1.pack(pady=(50, 10))
+
+        morning = ctk.CTkLabel(root, text="Enter the medicine you want to take",
+                               font=ctk.CTkFont(size=22))
+        morning.pack(pady=(50, 10))
+
+        segemented_button = ctk.CTkSegmentedButton(root, values=drug_list)
+        segemented_button.pack()
+
+        combobox = ctk.CTkComboBox(root, values=["Morning", "Afternoon", "Night"])
+        combobox.pack()
+
+        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
+        enter1_button.pack(padx=(0,0), pady=(10, 20))
+
+
+show_page()
+
+root.mainloop()
