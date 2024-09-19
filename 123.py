@@ -1,4 +1,5 @@
 import pandas as pd
+
 #
 df = pd.read_csv("Drug.csv",
                  header=0,
@@ -7,10 +8,9 @@ drags = df.Drug.unique()
 drags = list(drags)
 print(drags)
 drag_choice = ''
-drag_ind=drags.index("Azithromycin")
-print(df.loc[drag_ind+1])
+drag_ind = drags.index("Azithromycin")
+print(df.loc[drag_ind + 1])
 print()
-
 
 # import sys module
 import pygame
@@ -66,14 +66,15 @@ while True:
                 user_text += event.unicode
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
+                drag_choice = user_text.strip()
                 df = pd.read_csv("Drug.csv",
                                  header=0,
                                  usecols=["Drug", "Information", "Effective"])
                 drags = list(df.Drug.unique())
                 print(str(drag_choice) in drags)
-                if str(drag_choice) in drags:
+                if drag_choice in drags:
                     print("hh")
-                    drag_ind = drags.index()
+                    drag_ind = drags.index(drag_choice)
                     print(df.loc[drag_ind + 1])
                     print()
                     user_text = ''
@@ -85,11 +86,6 @@ while True:
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
         input_rect.w = max(100, text_surface.get_width() + 10)
 
-
-
     pygame.display.flip()
 
     clock.tick(60)
-
-
-
