@@ -6,6 +6,7 @@ from tkinter import messagebox
 
 name = None
 name_list1 = []
+drug_list = []
 # Load the data
 df = pd.read_csv("Drug.csv", header=0, usecols=["Drug", "Information", "Effective"])
 drugs = df.Drug.unique()
@@ -25,6 +26,7 @@ drug_entry = None
 info_frame = None
 name_entry = None
 
+
 def next_page():
     global page
     page += 1
@@ -39,29 +41,29 @@ def search_drug():
     else:
         messagebox.showinfo("Not Found", "The drug you entered is not in the database.")
 
+def add_page():
+    drug = drug_entry.get().strip()
+    drug_list.append(drug)
 
 def name_list():
     name = name_entry.get().strip()
     name_list1.append(name)
     print(name_list1)
 
-
 def display_info(drug_info):
-    # Clear the info frame
     for widget in info_frame.winfo_children():
         widget.destroy()
-
-    # Center frame layout configuration
     info_frame.grid_columnconfigure(0, weight=1)
-
-    # Display drug information in categories
     drug_label = tk.Label(info_frame, text=f"Drug: {drug_info['Drug']}",
                           font=font.Font(family="welcome_font", size=16, weight="bold"))
     drug_label.grid(row=0, column=0, pady=(10, 5), sticky="nsew")  # Centering the label
-
     info_label = tk.Label(info_frame, text=f"Information: {drug_info['Information'].split('.')[0]}",
                           font=font.Font(family="welcome_font", size=17), wraplength=500, justify="center")
     info_label.grid(row=1, column=0, pady=(5, 10), padx=100, sticky="nsew")
+
+
+def combobox_callback(choice):
+    print("combobox dropdown clicked:", choice)
 
 
 def show_page():
@@ -112,10 +114,10 @@ def show_page():
         enter1_button.pack(padx=(0, 400), pady=(10, 20))
 
         lon_in2 = ctk.CTkLabel(root, text="Please enter your email:", font=ctk.CTkFont(size=20, weight="bold"))
-        lon_in2.pack(padx=(0,300), pady=(10, 40))
+        lon_in2.pack(padx=(0, 300), pady=(10, 60))
 
         email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
-        email_entry.pack(padx=(0, 400), pady=(1, 0))
+        email_entry.pack(padx=(0, 400), pady=(10, 10))
 
         enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
         enter1_button.pack(padx=(0, 400), pady=(10, 20))
@@ -136,29 +138,35 @@ def show_page():
         info_frame = ctk.CTkFrame(root)
         info_frame.pack(pady=(0, 0))
 
+        add_button = ctk.CTkButton(root, text="add", font=ctk.CTkFont(size=24), command=add_page)
+        add_button.pack(pady=(10, 20))
+
         next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
-        next_button.pack(pady=250)
+        next_button.pack(pady=(10, 20))
+        progressbar = ctk.CTkProgressBar(root, orientation="horizontal")
+        progressbar.pack()
 
     elif page == 4:
-        schedule= ctk.CTkLabel(root, text="Choose your schedule", font=ctk.CTkFont(size=56, weight="bold"))
+        schedule = ctk.CTkLabel(root, text="Choose your schedule", font=ctk.CTkFont(size=56, weight="bold"))
         schedule.pack(pady=(50, 10))
 
-        schedule1= ctk.CTkLabel(root, text="Enter the name of the medicine you need to take in at least one of the following options", font=ctk.CTkFont(size=32, weight="bold"))
+        schedule1 = ctk.CTkLabel(root,
+                                 text="Enter the name of the medicine you need to take in at least one of the following options",
+                                 font=ctk.CTkFont(size=32, weight="bold"), wraplength=500)
         schedule1.pack(pady=(50, 10))
 
-        morning= ctk.CTkLabel(root, text="Enter the medicine you want to take in the morning:", font=ctk.CTkFont(size=22))
+        morning = ctk.CTkLabel(root, text="Enter the medicine you want to take in the morning:",
+                               font=ctk.CTkFont(size=22))
         morning.pack(pady=(50, 10))
 
+        combobox = ctk.CTkComboBox(root, values=drug_list,
+                                   command=combobox_callback)
+        combobox.pack()
         email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
         email_entry.pack(padx=(0, 100), pady=(10, 10))
 
         enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
         enter1_button.pack(padx=(0, 100), pady=(10, 20))
-
-
-
-
-
 
 
 show_page()
