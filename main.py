@@ -5,6 +5,8 @@ import sys
 # Initialize Pygame
 pygame.init()
 
+medicine = []
+
 clock = pygame.time.Clock()
 
 # Create a Pygame window
@@ -119,17 +121,33 @@ while True:
         pygame.draw.rect(screen, 'black', input_rect)
         text_surface = base_font.render(user_text, True, (255, 255, 255))
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
-        input_rect.w = max(100, text_surface.get_width() + 50)
-        font = pygame.font.SysFont(None, 24)
+        input_rect.w = max(110, text_surface.get_width() + 120)
+        font = pygame.font.SysFont('Ariel', 32)
         img = font.render('search your medicine: ', True, 'black')
-        screen.blit(img, (170, 150))
+        screen.blit(img, (140, 150))
         font1 = pygame.font.SysFont("Arial", 46, 3)
         txt_welcome3 = font1.render("MedTrack", True, 'dark red')
         screen.blit(txt_welcome3, (29, 39))
+
+        font = pygame.font.Font(None, 24)
+        button_surface = pygame.Surface((400, 300))
+        text1 = font.render("add", True, (0, 0, 0))
+        text_rect1 = text.get_rect()
+
+        button_rect = pygame.Rect(345, 745, 150, 50)
+
+        button_surface.blit(text1, text_rect1)
+
+        medicine.append(user_text)
     hover_button(button_rect)
+
+    for i in range(100):
+        if page > 4:
+            page = i
 
     button_surface.blit(text, text_rect)
 
     screen.blit(button_surface, (button_rect.x, button_rect.y))
 
     pygame.display.update()
+
