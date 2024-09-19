@@ -16,7 +16,8 @@ pygame.display.set_caption('MedTrack')
 
 base_font = pygame.font.Font(None, 32)
 user_text = ''
-
+user_name = ""
+user_mail = ""
 # create rectangle
 input_rect = pygame.Rect(200, 200, 140, 32)
 
@@ -97,8 +98,8 @@ while True:
                     drag_ind = drags.index(drag_choice)
                     print(df.loc[drag_ind + 1])
                     print()
-                    user_text = ''
-                    print(drag_choice)
+                user_text = ''
+                print(drag_choice)
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 
             if button_rect.collidepoint(event.pos):
@@ -111,9 +112,33 @@ while True:
         font1 = pygame.font.SysFont("Arial", 52, 3)
         txt_welcome1 = font1.render("MedTrack", True, 'dark red')
         screen.blit(txt_welcome1, (150, 160))
-        font2 = pygame.font.SysFont("Arial", 40)
-        txt_welcome2 = font2.render("This app will make your life easier!", True, 'black')
-        screen.blit(txt_welcome2, (5, 240))
+
+        font2 = pygame.font.SysFont("Arial", 20)
+        txt_welcome2 = font2.render("Sometimes taking medicine becomes a burden,", True, 'black')
+        screen.blit(txt_welcome2, (70, 240))
+
+        # font4 = pygame.font.SysFont("Arial", 20, 1)
+        txt_welcome3 = font2.render("you have to remember when and which medicine to take.", True, 'black')
+        screen.blit(txt_welcome3, (50, 280))
+
+        font3 = pygame.font.SysFont("Arial", 22, 1)
+        txt_welcome4 = font3.render("This app will make your life easier!", True, 'black')
+        screen.blit(txt_welcome4, (90, 320))
+
+        txt_welcome5 = font2.render("In our app you can search information about medicines,", True, 'black')
+        screen.blit(txt_welcome5, (50, 360))
+
+        txt_welcome6 = font2.render("a user who decides to take the medicine can", True, 'black')
+        screen.blit(txt_welcome6, (70, 400))
+
+        txt_welcome7 = font2.render("enter it into the system.", True,
+                                    'black')
+        screen.blit(txt_welcome7, (150, 440))
+
+        txt_welcome6 = font2.render(" The app will remind you to take the medicine by sending a daily message", True,
+                                    'black')
+        screen.blit(txt_welcome5, (50, 480))
+
     if page == 1:
         screen.fill((255, 255, 255))
         pygame.draw.rect(screen, color, input_rect)
@@ -121,10 +146,22 @@ while True:
         screen.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
         input_rect.w = max(100, text_surface.get_width() + 10)
 
+    if page == 2:
+
+        txt_lon = font.render("LON IN", True, 'black')
+        screen.blit(txt_lon, (160, 100))
+        font2 = pygame.font.SysFont("Arial", 20)
+        txt_lon1 = font2.render("Please enter your full name:", True, 'black')
+        screen.blit(txt_lon1, (50, 200))
+
+        font2 = pygame.font.SysFont("Arial", 20)
+        txt_lon2 = font2.render("Please enter your Email: :", True, 'black')
+        screen.blit(txt_lon2, (50, 300))
+
+
     hover_button(button_rect)
 
     button_surface.blit(text, text_rect)
-
 
     screen.blit(button_surface, (button_rect.x, button_rect.y))
 

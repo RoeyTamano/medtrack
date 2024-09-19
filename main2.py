@@ -4,7 +4,8 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import messagebox
 
-
+name = None
+name_list1 = []
 # Load the data
 df = pd.read_csv("Drug.csv", header=0, usecols=["Drug", "Information", "Effective"])
 drugs = df.Drug.unique()
@@ -22,7 +23,7 @@ page = 1
 # Define global variables for the Entry and Label widgets
 drug_entry = None
 info_frame = None
-
+name_entry = None
 
 
 def next_page():
@@ -40,8 +41,13 @@ def search_drug():
         messagebox.showinfo("Not Found", "The drug you entered is not in the database.")
 
 
-def display_info(drug_info):
+def name_list():
+    name = name_entry.get().strip()
+    name_list1.append(name)
+    print(name_list1)
 
+
+def display_info(drug_info):
     # Clear the info frame
     for widget in info_frame.winfo_children():
         widget.destroy()
@@ -55,12 +61,11 @@ def display_info(drug_info):
     drug_label.grid(row=0, column=0, pady=(10, 5), sticky="nsew")  # Centering the label
 
 
-
-
 def show_page():
     global page
     global drug_entry
     global info_frame
+    global name_entry
 
     for widget in root.winfo_children():
         widget.destroy()
@@ -89,6 +94,34 @@ def show_page():
         next_button.pack(pady=5)
 
     elif page == 2:
+        lon_in = ctk.CTkLabel(root, text="LON IN ", font=ctk.CTkFont(size=56, weight="bold"))
+        lon_in.pack(pady=(50, 10))
+        lon_in1 = ctk.CTkLabel(root, text="Please fill in the following details in order to register!",
+                               font=ctk.CTkFont(size=20, weight="bold"))
+        lon_in1.pack(pady=(10, 20))
+        lon_in1 = ctk.CTkLabel(root, text="Please enter your full name:", font=ctk.CTkFont(size=20, weight="bold"))
+        lon_in1.pack(padx=(0, 250), pady=(10, 40))
+
+        name_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
+        name_entry.pack(padx=(0, 400), pady=(10, 10))
+
+        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=name_list)
+        enter1_button.pack(padx=(0, 400), pady=(10, 20))
+
+        lon_in2 = ctk.CTkLabel(root, text="Please enter your email:", font=ctk.CTkFont(size=20, weight="bold"))
+        lon_in2.pack(padx=(0,300), pady=(10, 60))
+
+        email_entry = ctk.CTkEntry(root, font=ctk.CTkFont(size=20))
+        email_entry.pack(padx=(0, 400), pady=(10, 10))
+
+        enter1_button = ctk.CTkButton(root, text="ENTER", font=ctk.CTkFont(size=24), command=search_drug)
+        enter1_button.pack(padx=(0, 400), pady=(10, 20))
+
+
+
+
+
+    elif page == 3:
         title_label = ctk.CTkLabel(root, text="Search for a Drug", font=ctk.CTkFont(size=36))
         title_label.pack(pady=(50, 20))
 
@@ -104,8 +137,17 @@ def show_page():
         next_button = ctk.CTkButton(root, text="Next", font=ctk.CTkFont(size=24), command=next_page)
         next_button.pack(pady=250)
 
+    if page == 3:
+        lon_label = ctk.CTkLabel(root, text="LON IN", font=ctk.CTkFont(size=56, weight="bold"))
+        lon_label.pack(pady=(50, 10))
 
+        lon_label1 = ctk.CTkLabel(root, text="Please fill in the following details in order to register 'MedTrack'",
+                                  font=ctk.CTkFont(size=22, weight="bold"))
+        lon_label1.pack(pady=(50, 5))
 
+        lon_label2 = ctk.CTkLabel(root, text="Please enter your full name:",
+                                  font=ctk.CTkFont(size=20, ))
+        lon_label2.pack(padx=(0, 300), pady=(20, 30))
 
 
 show_page()
