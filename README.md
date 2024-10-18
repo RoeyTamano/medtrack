@@ -5,6 +5,10 @@ MedTrack is a medication management app that provides users with information abo
 ## Features 🌟
 
 - **Medication Search**: Easily search for information on available medications.
+  
+ ### Massive DATABASE with over 2000 medications
+  
+![image](https://github.com/user-attachments/assets/d023a062-89c9-4f0c-b763-c126cefdeda1)
 - **Dosage Reminders**: Set personal reminders for medication intake based on specific times and dates.
 - **Email Notifications**: Receive email reminders for your medication schedule.
 - **User Management**: Enter your name and email to receive personalized reminders.
